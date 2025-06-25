@@ -1,0 +1,6 @@
+/target
+Cargo.lock
+task_scheduler
+tasks.db
+task.log
+.DS_Store

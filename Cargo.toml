@@ -1,0 +1,37 @@
+cargo-features = ["profile-rustflags", "trim-paths"]
+
+[package]
+name = "task_scheduler"
+version = "0.1.0"
+edition = "2024"
+authors = ["Смирнов Антон"]
+repository = "https://github.com/smir-ant/task_scheduler"
+
+[dependencies]
+tokio = { version = "1.45.1", features = ["full"] }
+clap = { version = "4.5.40", features = ["derive"] }
+sqlx = { version = "0.8.6", features = ["sqlite", "runtime-tokio-rustls", "macros"] }
+chrono = { version = "0.4.41", features = ["serde"] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+anyhow = "1.0.98"
+cron = "0.15.0"
+
+
+[profile.dev]
+incremental = true # Compile your binary in smaller steps.
+rustflags = ["-Zthreads=8"] # Better compile performance.
+
+[profile.release]
+codegen-units = 1 # Allows LLVM to perform better optimization.
+lto = true # Enables link-time-optimizations.
+opt-level = 3 # Prefer speed.
+panic = "abort" # Higher performance by disabling panic handlers.
+strip = true # Ensures debug symbols are removed.
+trim-paths = "all" # Removes potentially privileged information from your binaries.
+rustflags = ["-Cdebuginfo=0", "-Zthreads=8"] # Better compile performance.
+
+
+# [[bin]]
+# name = "run"  # есть желание иначе назвать бинарник выходной?
+# path = "src/main.rs"
